@@ -5,7 +5,7 @@ build:
 clean:
 	-rm socket/socket-linux
 	-rm sphere/sphere-linux
-
+	-rm sphere/sphere
 docker:
 	make clean
 	make build
