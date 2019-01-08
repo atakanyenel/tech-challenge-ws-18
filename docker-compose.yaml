@@ -1,0 +1,44 @@
+version: '3'
+services:
+  socket:
+    build:
+      context: socket
+    depends_on:
+      - sphere
+      - mqtt
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt
+    restart: always
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+  sphere:
+    build:
+      context: sphere
+    depends_on:
+      - mqtt
+      - mysql
+      - adminer
+    restart: always
+    ports:
+      - 4000:4000
+  
+  mysql:
+    image: mysql
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - ./db-data:/var/lib/mysql
+
+      
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

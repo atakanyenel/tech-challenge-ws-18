@@ -1,0 +1,67 @@
+
+<!doctype html>
+<html>
+
+<head>
+	<title>Pie Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="./utils.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<div id="canvas-holder" style="width:40%">
+		<canvas id="chart-area"></canvas>
+	</div>
+	<button id="randomizeData">Randomize Data</button>
+	<button id="addDataset">Add Dataset</button>
+	<button id="removeDataset">Remove Dataset</button>
+	<script>
+		
+
+		
+		window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+            
+            $.get("/by-type", function(data, status){
+            config={
+                type:"pie",
+                data: {
+                    datasets:[
+
+                    ],
+                labels: Object.keys(data),
+                },
+
+                options:{
+                    responsive:true
+                }
+            }
+        var newDataSet={
+            type: "pie",
+            backgroundColor:[],
+            data: [],
+            label: "Usage Report "+data.length,
+        };
+        var colorNames = Object.keys(window.chartColors);
+	
+        Object.keys(data).forEach(function(key,index){
+            newDataSet.data.push(data[key]);
+            var colorName=colorNames[index % colorNames.length];
+            var newColor=window.chartColors[colorName];
+            newDataSet.backgroundColor.push(newColor)
+            
+        })
+        config.data.datasets.push(newDataSet);
+        window.myPie = new Chart(ctx, config);
+    })
+  
+		};
+
+	
+	</script>
+    
+
+</body>
+
+</html>
