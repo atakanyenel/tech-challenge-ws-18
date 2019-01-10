@@ -18,10 +18,11 @@ func startServer() {
 		panic(err)
 	}
 	r.Use(static.Serve("/", static.LocalFile("./views", false)))
-	r.LoadHTMLGlob("views/*")
+	r.LoadHTMLGlob("views/*.html")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
+		//c.Redirect(301, "/homepage")
+		c.HTML(200, "index", "")
 
 	})
 	r.GET("/pie-chart", func(c *gin.Context) {
@@ -126,6 +127,33 @@ func startServer() {
 		}
 		c.JSON(200, gin.H{"labels": dates, "values": dataArray})
 	})
+
+	socketRoutes := r.Group("sockets")
+	{
+		socketRoutes.GET("/", func(c *gin.Context) {
+			type socket struct {
+				id     int
+				typex  string
+				status string
+			}
+			results, err := db.Query("select * from sockets")
+			if err != nil {
+				panic(err.Error()) // proper error handling instead of panic in your app
+			}
+			var sockets []socket
+			for results.Next() {
+				var s socket
+				err = results.Scan(&s.id, &s.typex, &s.status)
+				if err != nil {
+					panic(err.Error()) // proper error handling instead of panic in your app
+				}
+				sockets = append(sockets, s)
+
+			}
+
+			c.JSON(200, sockets)
+		})
+	}
 	simRoutes(r)
 	r.Run(":4000")
 }
@@ -164,6 +192,21 @@ func simRoutes(r *gin.Engine) {
 				}
 			}
 			c.JSON(200, gin.H{"labels": labels, "values": dataArray})
+		})
+		sim.GET("/sockets", func(c *gin.Context) {
+			type socket struct {
+				ID     int
+				Typex  string
+				Status string
+			}
+			sockets := []socket{
+				{1, "entertainment", "ACTIVE"},
+				{2, "LIGHT", "DEACTIVE"},
+				{3, "COOKING", "ACTIVE"},
+				{4, "ENTERTAINMENT", "FAIL"},
+			}
+
+			c.JSON(200, sockets)
 		})
 	}
 }
