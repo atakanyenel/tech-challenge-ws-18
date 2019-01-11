@@ -153,6 +153,13 @@ func startServer() {
 			c.JSON(200, sockets)
 		})
 	}
+	adsRoutes := r.Group("ads")
+	{
+		adsRoutes.GET("/", func(c *gin.Context) {
+			//c.HTML(200, "ads.html", GetMainAds())
+			c.HTML(200, "ads.html", []string{"asd", "asd", "asd"})
+		})
+	}
 	simRoutes(r)
 	r.Run(":4000")
 }

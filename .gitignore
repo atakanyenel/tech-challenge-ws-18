@@ -1,4 +1,7 @@
 db-data
 sphere/sphere
+socket/socket
 sphere/sphere-linux
 socket/socket-linux
+sphere/sphere.exe
+socket/socket.exe
