@@ -214,7 +214,11 @@ func simRoutes(r *gin.Engine) {
 
 			c.JSON(200, sockets)
 		})
+		sim.GET("/ads", func(c *gin.Context) {
+			c.HTML(200, "ads.html", SimAds())
+		})
 	}
+
 }
 
 //select s.type,count(status),date(time) as day from measurements m , sockets s where s.socket_id=m.socket_id and m.status=1 group by day,type
