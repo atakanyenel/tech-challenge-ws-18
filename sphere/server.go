@@ -129,9 +129,9 @@ func startServer() {
 	{
 		socketRoutes.GET("/", func(c *gin.Context) {
 			type socket struct {
-				id     int
-				typex  string
-				status string
+				ID     int
+				Typex  string
+				Status string
 			}
 			results, err := db.Query("select * from sockets")
 			if err != nil {
@@ -140,7 +140,7 @@ func startServer() {
 			var sockets []socket
 			for results.Next() {
 				var s socket
-				err = results.Scan(&s.id, &s.typex, &s.status)
+				err = results.Scan(&s.ID, &s.Typex, &s.Status)
 				if err != nil {
 					panic(err.Error()) // proper error handling instead of panic in your app
 				}

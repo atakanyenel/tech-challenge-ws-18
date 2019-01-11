@@ -9,5 +9,6 @@ clean:
 docker:
 	make clean
 	make build
+	sleep 3
 	docker-compose build
 	docker-compose up

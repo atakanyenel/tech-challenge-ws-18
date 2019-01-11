@@ -1,11 +1,11 @@
 version: '3'
 services:
-  socket:
-    build:
-      context: socket
-    depends_on:
-      - sphere
-      - mqtt
+#  socket:
+#    build:
+#      context: socket
+#    depends_on:
+#      - sphere
+#      - mqtt
 
   mqtt:
     image: eclipse-mosquitto:latest
