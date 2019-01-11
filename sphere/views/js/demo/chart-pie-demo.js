@@ -4,13 +4,37 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'pie',
-  data: {
-    labels: ["Blue", "Red", "Yellow", "Green"],
-    datasets: [{
-      data: [12.21, 15.58, 11.25, 8.32],
-      backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745'],
-    }],
-  },
-});
+var myPieChart
+
+$.get("/sim/by-type", function (data, status) {
+  config = {
+    type: "pie",
+    data: {
+      datasets: [
+
+      ],
+      labels: Object.keys(data),
+    },
+
+    options: {
+      responsive: true
+    }
+  }
+  var newDataSet = {
+    type: "pie",
+    backgroundColor: [],
+    data: [],
+    label: "Usage Report " + data.length,
+  };
+  var colorNames = Object.keys(window.chartColors);
+
+  Object.keys(data).forEach(function (key, index) {
+    newDataSet.data.push(data[key]);
+    var colorName = colorNames[index % colorNames.length];
+    var newColor = window.chartColors[colorName];
+    newDataSet.backgroundColor.push(newColor)
+
+  })
+  config.data.datasets.push(newDataSet);
+  myPieChart = new Chart(ctx, config);
+})

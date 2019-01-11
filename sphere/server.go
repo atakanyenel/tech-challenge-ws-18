@@ -25,9 +25,6 @@ func startServer() {
 		c.HTML(200, "index", "")
 
 	})
-	r.GET("/pie-chart", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "pie-chart.html", gin.H{})
-	})
 	r.GET("/line-chart", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "usage-by-day.html", gin.H{})
 	})
