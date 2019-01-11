@@ -3,11 +3,12 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"net/http"
-	"time"
 )
 
 func startServer() {
@@ -22,7 +23,8 @@ func startServer() {
 
 	r.GET("/", func(c *gin.Context) {
 		//c.Redirect(301, "/homepage")
-		c.HTML(200, "index", "")
+
+		c.HTML(200, "index", gin.H{})
 
 	})
 	r.GET("/line-chart", func(c *gin.Context) {
