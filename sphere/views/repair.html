@@ -11,13 +11,29 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>TYPE</th>
+                    <th>TITLE</th>
+                    <th>BODY</th>
                     <th>STATUS</th>
                   </tr>
                 </thead>
 
                 <tbody>
-
+                    {{range .data}}
+                    <tr>
+                      <td>
+                        {{.ID}}
+                      </td>
+                      <td>
+                        {{.Title}}
+                      </td>
+                      <td>
+                        {{.Body}}
+                      </td>
+                      <td>
+                        {{.Status}}
+                      </td>
+                    </tr>
+                    {{end}}
                 </tbody>
               </table>
             </div>
@@ -25,17 +41,7 @@
          
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-table"></i>
-              HOUSE DESIGN</div>
-            <div class="card-body">
-              <div style="text-align: center">
-              <img src="designs/house_design.jpg">
-            </div>
-            </div>
-           
-          </div>
+        
       </div>
       <!-- /.container-fluid -->
 
@@ -93,7 +99,6 @@
   <script src="js/sb-admin.min.js"></script>
 
   <!-- Demo scripts for this page-->
-  <script src="js/demo/datatables-demo.js"></script>
 
 </body>
 

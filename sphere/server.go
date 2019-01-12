@@ -21,7 +21,6 @@ func startServer() {
 	user.Name = "Atakan"
 	user.Surname = "Yenel"
 	user.ID = 1
-	staticPages := []string{"charts", "tables", "compare", "notif", "promotions", "repair"}
 
 	r := gin.Default()
 	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/test")
@@ -38,29 +37,7 @@ func startServer() {
 	r.GET("/line-chart", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "usage-by-day.html", gin.H{})
 	})
-	r.GET("/test", func(c *gin.Context) {
-		results, err := db.Query("SELECT * FROM measurements")
-		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
-		}
-		dataArray := []socketData{}
-		for results.Next() {
 
-			var sensorID int
-
-			var timex time.Time
-
-			// for each row, scan the result into our tag composite object
-			err = results.Scan(&sensorID, &timex)
-			a := socketData{Name: sensorID, Time: timex}
-			dataArray = append(dataArray, a)
-			if err != nil {
-				panic(err.Error()) // proper error handling instead of panic in your app
-			}
-			// and then print out the tag's Name attribute
-		}
-		c.JSON(200, dataArray)
-	})
 	r.GET("/insert", func(c *gin.Context) {
 		receivedMessage := socketData{
 			Name: 2, Time: time.Now()}
@@ -149,9 +126,14 @@ func startServer() {
 		//c.HTML(200, "ads.html", GetMainAds())
 		c.HTML(200, "index.html", gin.H{"ads": SimAds()})
 	})
-	for _, route := range staticPages {
-		r.GET(fmt.Sprintf("/%v", route), returnHandler(fmt.Sprintf("%v.html", route)))
-	}
+
+	r.GET("/charts", func(c *gin.Context) { c.HTML(200, "charts.html", gin.H{"user": user}) })
+	r.GET("/tables", func(c *gin.Context) { c.HTML(200, "tables.html", gin.H{"user": user}) })
+	r.GET("/compare", func(c *gin.Context) { c.HTML(200, "compare.html", gin.H{"user": user}) })
+	r.GET("/notif", func(c *gin.Context) { c.HTML(200, "notif.html", gin.H{"user": user, "data": returnNotifs(db)}) })
+	r.GET("/promotions", func(c *gin.Context) { c.HTML(200, "promotions.html", gin.H{"user": user, "data": ""}) })
+	r.GET("/repair", func(c *gin.Context) { c.HTML(200, "repair.html", gin.H{"user": user, "data": returnRepairs(db)}) })
+	r.GET("/test", func(c *gin.Context) { c.HTML(200, "test.html", gin.H{"user": user, "data": returnNotifs(db)}) })
 	simRoutes(r)
 	r.Run(":4000")
 }
@@ -256,9 +238,9 @@ func returnByType(db *sql.DB) map[string]int {
 	return data
 }
 
-func returnHandler(htmlName string) func(c *gin.Context) {
+func returnHandler(route string, data interface{}) func(c *gin.Context) {
 
 	return func(c *gin.Context) {
-		c.HTML(200, htmlName, gin.H{"user": user})
+		c.HTML(200, fmt.Sprintf("%v.html", route), gin.H{"user": user, route: data})
 	}
 }
