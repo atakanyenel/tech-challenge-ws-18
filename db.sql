@@ -15,16 +15,17 @@ DROP TABLE IF EXISTS `ads`;
 CREATE TABLE `ads` (
   `image_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `type` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `usage` int(11) NOT NULL,
   `title` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `product_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `ads` (`image_url`, `text`, `reason`, `title`, `product_url`) VALUES
-('https://images-na.ssl-images-amazon.com/images/I/51B5x6fi4HL._SL1500_.jpg',	'This is the new PS4.',	'Entertainment > 2 hours every day',	'Playstation 4',	'https://www.amazon.de/dp/B07KMV94JF/ref=asc_df_B07KMV94JF57979247/?tag=googshopde-21&creative=22434&creativeASIN=B07KMV94JF&linkCode=df0&hvadid=308847264890&hvpos=1o1&hvnetw=g&hvrand=16041305715093971334&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-647432777687&th=1&psc=1&tag=&ref=&adgrpid=64245981791&hvpone=&hvptwo=&hvadid=308847264890&hvpos=1o1&hvnetw=g&hvrand=16041305715093971334&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-647432777687'),
-('https://images-na.ssl-images-amazon.com/images/I/511F7fH4BbL._SL1000_.jpg',	'A smart Philip Hue light',	'Lighting > 4 hours a day',	'Philips HF3520/01',	'https://www.amazon.de/dp/B008LR3KD8/ref=asc_df_B008LR3KD857981926/?tag=googshopde-21&creative=22398&creativeASIN=B008LR3KD8&linkCode=df0&hvadid=232067132146&hvpos=1o1&hvnetw=g&hvrand=3860014294753512637&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-386142310710&th=1&psc=1'),
-('https://images-na.ssl-images-amazon.com/images/I/61maXsV3t9L._SL1500_.jpg',	'An economic refrigerator for your kitchen',	'Refrigerator spends more energy than other houses.',	'Bomann KG 320.1 Kühl-Gefrier-Kombination',	'https://www.amazon.de/Bomann-KG-320-1-K%C3%BChl-Gefrier-Kombination-Gefrierteil/dp/B06Y2TVW9Y/ref=sr_1_8?s=appliances&ie=UTF8&qid=1547224368&sr=1-8&keywords=refrigerator'),
-('https://images-na.ssl-images-amazon.com/images/I/91wEhBwdFfL._SL1500_.jpg',	'A new TV for your home',	'Entertainment > 2 hours a day',	'Dyon Enter 32 Pro-X 80 cm (32 Zoll) Fernseher',	'https://www.amazon.de/Enter-Pro-X-Fernseher-Triple-Energieklasse/dp/B07CZ1YWVG/ref=sr_1_8?s=ce-de&ie=UTF8&qid=1547224470&sr=1-8&keywords=tv');
+INSERT INTO `ads` (`image_url`, `text`, `type`, `usage`, `title`, `product_url`) VALUES
+('https://images-na.ssl-images-amazon.com/images/I/51B5x6fi4HL._SL1500_.jpg',	'This is the new PS4.',	'Entertainment',	1,	'Playstation 4',	'https://www.amazon.de/dp/B07KMV94JF/ref=asc_df_B07KMV94JF57979247/?tag=googshopde-21&creative=22434&creativeASIN=B07KMV94JF&linkCode=df0&hvadid=308847264890&hvpos=1o1&hvnetw=g&hvrand=16041305715093971334&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-647432777687&th=1&psc=1&tag=&ref=&adgrpid=64245981791&hvpone=&hvptwo=&hvadid=308847264890&hvpos=1o1&hvnetw=g&hvrand=16041305715093971334&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-647432777687'),
+('https://images-na.ssl-images-amazon.com/images/I/511F7fH4BbL._SL1000_.jpg',	'A smart Philip Hue light',	'Lighting',	3,	'Philips HF3520/01',	'https://www.amazon.de/dp/B008LR3KD8/ref=asc_df_B008LR3KD857981926/?tag=googshopde-21&creative=22398&creativeASIN=B008LR3KD8&linkCode=df0&hvadid=232067132146&hvpos=1o1&hvnetw=g&hvrand=3860014294753512637&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9042512&hvtargid=pla-386142310710&th=1&psc=1'),
+('https://images-na.ssl-images-amazon.com/images/I/61maXsV3t9L._SL1500_.jpg',	'An economic refrigerator for your kitchen',	'Cooking',	9,	'Bomann KG 320.1 Kühl-Gefrier-Kombination',	'https://www.amazon.de/Bomann-KG-320-1-K%C3%BChl-Gefrier-Kombination-Gefrierteil/dp/B06Y2TVW9Y/ref=sr_1_8?s=appliances&ie=UTF8&qid=1547224368&sr=1-8&keywords=refrigerator'),
+('https://images-na.ssl-images-amazon.com/images/I/91wEhBwdFfL._SL1500_.jpg',	'A new TV for your home',	'Entertainment',	7,	'Dyon Enter 32 Pro-X 80 cm (32 Zoll) Fernseher',	'https://www.amazon.de/Enter-Pro-X-Fernseher-Triple-Energieklasse/dp/B07CZ1YWVG/ref=sr_1_8?s=ce-de&ie=UTF8&qid=1547224470&sr=1-8&keywords=tv');
 
 DROP TABLE IF EXISTS `measurements`;
 CREATE TABLE `measurements` (
@@ -76,18 +77,47 @@ INSERT INTO `measurements` (`socket_id`, `time`) VALUES
 (1,	'2019-01-11 14:42:19'),
 (1,	'2019-01-11 14:42:29'),
 (1,	'2019-01-11 14:42:39'),
-(1,	'2019-01-11 14:42:49');
+(1,	'2019-01-11 14:42:49'),
+(4,	'2019-01-12 15:53:27'),
+(4,	'2019-01-12 15:53:30'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:18'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36'),
+(4,	'2019-01-12 15:54:36');
 
 DROP TABLE IF EXISTS `sockets`;
 CREATE TABLE `sockets` (
   `socket_id` int(11) NOT NULL,
   `type` varchar(80) NOT NULL,
-  `statu` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+  `status` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `sockets` (`socket_id`, `type`, `statu`) VALUES
+INSERT INTO `sockets` (`socket_id`, `type`, `status`) VALUES
 (1,	'charging',	'ACTIVE'),
-(2,	'lighting',	'FAIL'),
-(3,	'cooking',	'STOPPED');
+(2,	'Lighting',	'FAIL'),
+(3,	'cooking',	'STOPPED'),
+(4,	'Entertainment',	'ACTIVE');
 
--- 2019-01-11 16:47:35
+-- 2019-01-12 18:33:05

@@ -11,22 +11,30 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var user struct {
+	Name    string
+	Surname string
+	ID      int
+}
+
 func startServer() {
+	user.Name = "Atakan"
+	user.Surname = "Yenel"
+	user.ID = 1
+	staticPages := []string{"charts", "tables", "compare", "notif", "promotions", "repair"}
 
 	r := gin.Default()
 	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/test")
 	if err != nil {
 		panic(err)
 	}
-	r.Use(static.Serve("/", static.LocalFile("./views", false)))
+	r.Use(static.Serve("/", static.LocalFile("./views/", false)))
 	r.LoadHTMLGlob("views/*.html")
 
-	r.GET("/", func(c *gin.Context) {
-		//c.Redirect(301, "/homepage")
-
-		c.HTML(200, "index", gin.H{})
-
+	r.GET("/home", func(c *gin.Context) {
+		c.HTML(200, "home.html", gin.H{"ads": GetMainAds(), "user": user})
 	})
+
 	r.GET("/line-chart", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "usage-by-day.html", gin.H{})
 	})
@@ -66,25 +74,8 @@ func startServer() {
 	})
 
 	r.GET("/by-type", func(c *gin.Context) {
-		results, err := db.Query("select count(*),type from measurements,sockets where sockets.socket_id=measurements.socket_id group by type")
-		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
-		}
-		data := make(map[string]int)
 
-		for results.Next() {
-
-			var typex string
-			var count int
-			// for each row, scan the result into our tag composite object
-			err = results.Scan(&count, &typex)
-			data[typex] = count
-			if err != nil {
-				panic(err.Error()) // proper error handling instead of panic in your app
-			}
-			// and then print out the tag's Name attribute
-		}
-		c.JSON(200, data)
+		c.JSON(200, returnByType(db))
 	})
 
 	r.GET(("/usage-by-day"), func(c *gin.Context) {
@@ -153,12 +144,13 @@ func startServer() {
 			c.JSON(200, sockets)
 		})
 	}
-	adsRoutes := r.Group("ads")
-	{
-		adsRoutes.GET("/", func(c *gin.Context) {
-			//c.HTML(200, "ads.html", GetMainAds())
-			c.HTML(200, "ads.html", []string{"asd", "asd", "asd"})
-		})
+
+	r.GET("/ads", func(c *gin.Context) {
+		//c.HTML(200, "ads.html", GetMainAds())
+		c.HTML(200, "index.html", gin.H{"ads": SimAds()})
+	})
+	for _, route := range staticPages {
+		r.GET(fmt.Sprintf("/%v", route), returnHandler(fmt.Sprintf("%v.html", route)))
 	}
 	simRoutes(r)
 	r.Run(":4000")
@@ -240,4 +232,33 @@ func removeDuplicates(elements []string) []string {
 	}
 	// Return the new slice.
 	return result
+}
+
+func returnByType(db *sql.DB) map[string]int {
+	results, err := db.Query("select count(*),type from measurements,sockets where sockets.socket_id=measurements.socket_id group by type")
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+	data := make(map[string]int)
+
+	for results.Next() {
+
+		var typex string
+		var count int
+		// for each row, scan the result into our tag composite object
+		err = results.Scan(&count, &typex)
+		data[typex] = count
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+		// and then print out the tag's Name attribute
+	}
+	return data
+}
+
+func returnHandler(htmlName string) func(c *gin.Context) {
+
+	return func(c *gin.Context) {
+		c.HTML(200, htmlName, gin.H{"user": user})
+	}
 }

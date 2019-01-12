@@ -4,13 +4,14 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Area Chart Example
 
-$.get("/sim/usage-by-day", function (data, status) {
+$.get("/usage-by-day", function (data, status) {
 
   var lineChartData = {
     labels: [],
     datasets: []
   };
   values = data["values"]
+  lineChartData.labels=data["labels"]
   console.log(values)
 
   Object.keys(values).forEach(function (key, index) {

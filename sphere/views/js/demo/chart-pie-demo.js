@@ -6,7 +6,7 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 var ctx = document.getElementById("myPieChart");
 var myPieChart
 
-$.get("/sim/by-type", function (data, status) {
+$.get("/by-type", function (data, status) {
   config = {
     type: "pie",
     data: {
