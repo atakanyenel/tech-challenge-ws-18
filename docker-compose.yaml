@@ -42,3 +42,9 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  reinvent:
+    build:
+      context: reinvent
+    ports:
+      - 5000:5000
