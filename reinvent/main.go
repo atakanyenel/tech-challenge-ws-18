@@ -120,12 +120,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		usage := r.FormValue("usage")
 		title := r.FormValue("title")
 		product := r.FormValue("product")
+		id := r.FormValue("uid")
 
-		insForm, err := db.Prepare("UPDATE ads SET image_url=?, text=?,type=?,usage=?,title=?,product_url=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE `ads` SET `image_url`=?, `text`=?,`type`=?,`usage`=?,`title`=?,`product_url`=? WHERE `id`=?")
 		if err != nil {
 			panic(err.Error())
 		}
-		insForm.Exec(image, text, reason, usage, title, product)
+		insForm.Exec(image, text, reason, usage, title, product, id)
 	}
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
