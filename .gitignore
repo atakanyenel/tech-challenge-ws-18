@@ -3,3 +3,5 @@ sphere/sphere
 socket/socket
 *-linux
 *.exe
+.DS_Store
+images/
