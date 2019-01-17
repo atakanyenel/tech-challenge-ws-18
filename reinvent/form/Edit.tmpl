@@ -1,0 +1,19 @@
+{{ define "Edit" }}
+  {{ template "Header" }}
+    {{ template "Menu" }} 
+   <h2>Edit Name and City</h2>  
+    <form method="POST" action="update">
+      <input type="hidden" name="uid" value="{{ .ID }}" />
+      <label> ImageURL </label><input type="text" name="image" value="{{ .ImageURL }}"  /><br />
+      <label> Text </label><input type="text" name="text" value="{{ .Text }}"  /><br />
+      
+      <label> Reason </label><input type="text" name="reason" value="{{ .Reason }}"  /><br />
+      <label> Usage </label><input type="text" name="usage" value="{{ .Usage }}"  /><br />
+      <label> Title </label><input type="text" name="title" value="{{ .Title }}"  /><br />
+      <label> ProductURL </label><input type="text" name="product" value="{{ .ProductURL }}"  /><br />
+      
+      
+      <input type="submit" value="Save AD" />
+    </form><br />
+  {{ template "Footer" }}
+{{ end }}

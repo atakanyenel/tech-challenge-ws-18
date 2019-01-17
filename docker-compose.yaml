@@ -35,6 +35,8 @@ services:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - ./db-data:/var/lib/mysql
+    ports:
+      - 3306:3306
 
       
   adminer:
@@ -44,6 +46,7 @@ services:
       - 8080:8080
 
   reinvent:
+    restart: always
     build:
       context: reinvent
     ports:

@@ -6,7 +6,7 @@ build:
 clean:
 	-rm socket/socket-linux
 	-rm sphere/sphere-linux
-	-rm sphere/sphere
+	-rm reinvent/reinvent-linux
 docker:
 	make clean
 	make build

@@ -1,0 +1,17 @@
+{{ define "New" }}
+  {{ template "Header" }}
+    {{ template "Menu" }} 
+   <h2>New Ad</h2>  
+    <form method="POST" action="insert">
+      
+      <label> ImageURL </label><input type="text" name="image" /><br />
+      <label> Text </label><input type="text" name="text" /><br />
+      <label> Reason </label><input type="text" name="reason" /><br />
+      <label> Usage </label><input type="text" name="usage" /><br />
+      <label> Title </label><input type="text" name="title" /><br />
+     
+      <label> ProductURL </label><input type="text" name="product" /><br />
+      <input type="submit" value="Save Ad" />
+    </form>
+  {{ template "Footer" }}
+{{ end }}
