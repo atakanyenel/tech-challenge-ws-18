@@ -55,6 +55,27 @@ func startServer() {
 		c.JSON(200, returnByType(db))
 	})
 
+	r.GET("/bar-chart", func(c *gin.Context) {
+		results, err := db.Query("select count(socket_id),date(time) from measurements group by date(time)")
+		if err != nil {
+			panic(err.Error())
+		}
+		dataArray := make(map[string]int)
+
+		var time string
+		var count int
+		for results.Next() {
+			err = results.Scan(&count, &time)
+			if err != nil {
+				panic(err.Error()) // proper error handling instead of panic in your app
+			}
+			dataArray[time] = count
+
+		}
+
+		c.JSON(200, gin.H{"values": dataArray})
+	})
+
 	r.GET(("/usage-by-day"), func(c *gin.Context) {
 		results, err := db.Query("select s.type,count(*),date(time) as day from measurements m , sockets s where s.socket_id=m.socket_id  group by day,type")
 

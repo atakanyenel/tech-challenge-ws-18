@@ -3,16 +3,20 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Bar Chart Example
+
+$.get("/bar-chart",function(data,status){
 var ctx = document.getElementById("myBarChart");
-var myLineChart = new Chart(ctx, {
+console.log("bar-chart")
+
+newBarChart={
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: [],
     datasets: [{
-      label: "Revenue",
+      label: "Daily Usage",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      data: [],
     }],
   },
   options: {
@@ -31,7 +35,7 @@ var myLineChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 15000,
+          max: 100,
           maxTicksLimit: 5
         },
         gridLines: {
@@ -43,4 +47,14 @@ var myLineChart = new Chart(ctx, {
       display: false
     }
   }
-});
+}
+Object.keys(data["values"]).forEach(function(key,index){
+  newBarChart.data.labels.push(key)
+  newBarChart.data.datasets[0].data.push(data["values"][key])
+})
+
+var myLineChart = new Chart(ctx,newBarChart )
+
+})
+
+;
