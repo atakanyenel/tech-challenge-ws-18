@@ -558,7 +558,8 @@ INSERT INTO `measurements` (`socket_id`, `time`) VALUES
 (2,	'2019-01-20 09:00:00'),
 (2,	'2019-01-20 09:00:00'),
 (2,	'2019-01-20 09:00:00'),
-(4,	'2019-01-20 09:00:00');
+(4,	'2019-01-20 09:00:00'),
+(3,	'2019-01-20 17:32:56');
 
 DROP TABLE IF EXISTS `notifs`;
 CREATE TABLE `notifs` (
@@ -570,6 +571,17 @@ CREATE TABLE `notifs` (
 INSERT INTO `notifs` (`id`, `title`, `body`) VALUES
 (1,	'New Garbage Cans',	'This notification refers the installation of new garbage cans.'),
 (2,	'New Magnetic Door',	'This notification is about the installation of new Magnetic Door.');
+
+DROP TABLE IF EXISTS `promotions`;
+CREATE TABLE `promotions` (
+  `id` int(11) NOT NULL,
+  `title` varchar(80) NOT NULL,
+  `body` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `promotions` (`id`, `title`, `body`) VALUES
+(1,	'For Sale',	'A 2 year old house built by ReInvent is for sale. '),
+(2,	'Upcoming Sale',	'We have a sale meeting for the new apartment we are building.');
 
 DROP TABLE IF EXISTS `repairs`;
 CREATE TABLE `repairs` (
@@ -591,9 +603,9 @@ CREATE TABLE `sockets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `sockets` (`socket_id`, `type`, `status`) VALUES
-(1,	'charging',	'ACTIVE'),
+(1,	'Charging',	'ACTIVE'),
 (2,	'Lighting',	'FAIL'),
-(3,	'cooking',	'STOPPED'),
+(3,	'Cooking',	'STOPPED'),
 (4,	'Entertainment',	'ACTIVE');
 
--- 2019-01-20 16:32:15
+-- 2019-01-20 17:39:34

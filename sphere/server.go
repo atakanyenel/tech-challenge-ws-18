@@ -18,8 +18,8 @@ var user struct {
 }
 
 func startServer() {
-	user.Name = "Atakan"
-	user.Surname = "Yenel"
+	user.Name = "Example"
+	user.Surname = "User"
 	user.ID = 1
 
 	r := gin.Default()
@@ -152,7 +152,9 @@ func startServer() {
 	r.GET("/tables", func(c *gin.Context) { c.HTML(200, "tables.html", gin.H{"user": user}) })
 	r.GET("/compare", func(c *gin.Context) { c.HTML(200, "compare.html", gin.H{"user": user}) })
 	r.GET("/notif", func(c *gin.Context) { c.HTML(200, "notif.html", gin.H{"user": user, "data": returnNotifs(db)}) })
-	r.GET("/promotions", func(c *gin.Context) { c.HTML(200, "promotions.html", gin.H{"user": user, "data": ""}) })
+	r.GET("/promotions", func(c *gin.Context) {
+		c.HTML(200, "promotions.html", gin.H{"user": user, "data": returnPromotions(db)})
+	})
 	r.GET("/repair", func(c *gin.Context) { c.HTML(200, "repair.html", gin.H{"user": user, "data": returnRepairs(db)}) })
 	r.GET("/test", func(c *gin.Context) { c.HTML(200, "test.html", gin.H{"user": user, "data": returnNotifs(db)}) })
 	simRoutes(r)
