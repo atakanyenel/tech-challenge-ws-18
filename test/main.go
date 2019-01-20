@@ -15,7 +15,7 @@ type socketData struct {
 }
 
 const mqttTopic = "my-topic"
-const mqttServer = "localhost"
+const mqttServer = "mqtt"
 const delay = 1 * time.Second
 
 func main() {

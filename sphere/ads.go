@@ -30,7 +30,8 @@ func GetMainAds() []Ad {
 
 	for results.Next() {
 		var comingAd Ad
-		err = results.Scan(&comingAd.ImageURL, &comingAd.Text, &comingAd.Reason, &comingAd.Usage, &comingAd.Title, &comingAd.ProductURL)
+		var id int
+		err = results.Scan(&id, &comingAd.ImageURL, &comingAd.Text, &comingAd.Reason, &comingAd.Usage, &comingAd.Title, &comingAd.ProductURL)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
 		}

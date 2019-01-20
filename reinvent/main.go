@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"net/http"
 	"text/template"
@@ -144,7 +145,26 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
 }
+func getAdsAPI(w http.ResponseWriter, r *http.Request) {
+	db := dbConn()
+	selDB, err := db.Query("SELECT * FROM ads")
+	if err != nil {
+		panic(err.Error())
+	}
+	comingAd := Ad{}
+	res := []Ad{}
+	for selDB.Next() {
 
+		err = selDB.Scan(&comingAd.ID, &comingAd.ImageURL, &comingAd.Text, &comingAd.Reason, &comingAd.Usage, &comingAd.Title, &comingAd.ProductURL)
+		if err != nil {
+			panic(err.Error())
+		}
+		res = append(res, comingAd)
+	}
+	js, _ := json.Marshal(res)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
 func main() {
 	log.Println("Server started on: http://localhost:5000")
 	http.HandleFunc("/", index)
@@ -154,5 +174,6 @@ func main() {
 	http.HandleFunc("/insert", insert)
 	http.HandleFunc("/update", update)
 	http.HandleFunc("/delete", delete)
+	http.HandleFunc("/api/ads", getAdsAPI)
 	http.ListenAndServe(":5000", nil)
 }
