@@ -23,7 +23,7 @@ func startServer() {
 	user.ID = 1
 
 	r := gin.Default()
-	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/test")
+	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/local")
 	if err != nil {
 		panic(err)
 	}

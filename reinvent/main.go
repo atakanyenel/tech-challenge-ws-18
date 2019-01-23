@@ -21,7 +21,7 @@ type Ad struct {
 }
 
 func dbConn() (db *sql.DB) {
-	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/test")
+	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/cloud")
 	if err != nil {
 		panic(err.Error())
 	}

@@ -62,7 +62,7 @@ func onMessageReceived(client MQTT.Client, message MQTT.Message) {
 }
 func writeToDB(receivedMessage socketData) {
 
-	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/test")
+	db, err := sql.Open("mysql", "root:example@tcp(mysql:3306)/local")
 	if err != nil {
 		panic(err)
 	}
