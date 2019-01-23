@@ -13,7 +13,7 @@ This is the technical documentation for the tech challenge project *Building Sph
 - **Sphere:** This folder hosts the main dashboard served to the users. It has 3 functions. It collects real time data from the microcontrollers in the sockets, it processes ads and maps it to certain users and it runs the main dashboard UI.
 - **Socket:** Socket is the code to run on microcontrollers in the power sockets. Every 1 minute, it sends the time and the socket ID to the server. If the socket is not being used currently, it doesn't consume electricity.
 - **Test:** Hosts the script for random data generation.
-- **db.sql:** MySQL database structure. It creates a db called `test`, creates tables used by the system and inserts some mock data. You can directly import this to your database.
+- **db.sql:** MySQL database structure. Creates tables used by the system and inserts some mock data. You can directly import this to your database.
 - **docker-compose.yaml:** It builds the individual projects and runs them together. 
 - **makefile:** It compiles individual projects. Just to compile projects run `make`, to run them `make docker`. You need to have *docker* and *golang* installed on your system.
 
@@ -23,14 +23,17 @@ This project uses [**MQTT**](http://mqtt.org/) for the communication between soc
 
 The raspberry Pi in the building may not be reachable by users if every house uses a private network. To fix this problem, the proposed solution is tunneling from raspberry pi to a public server. This approach still protect the data. It also make the dasboard reachable outside the house.
 ## Database
-The system uses [`MySQL`](https://www.mysql.com/) database for data storage. A MySQL instance is distributed with the project. There are 6 tables.
+The system uses [`MySQL`](https://www.mysql.com/) database for data storage. A MySQL instance is distributed with the project.
 
+Sphere uses the db called `local`. It has 6 tables.
 - **ads:** Stores ads data. Every ad has a type and usage information which is used to compare ads with power usage data.
 - **measurements:** Stores measurements sent by the sockets. Every socket has a unique id and the time that the measurement was collected. 
 - **notifs:** Stores notifications. Notifications are simple texts that concern every inhabitant of the building.
 - **promotions:** Stores promotions created by ReInvent.
 - **repairs:** Stores repair requests from house owners to reinvent. Requests have a status field that shows their completion.
 - **sockets:** Stores microcontrolller data used by sockets. Every microcontroller has a unique id, a type and a status. The type is e.g. [Entertainment, Lighting, Cooking, Charging]
+
+ReInvent uses the db called `cloud`. It has only 1 table and it' identical to **ads**. Every 24 hour sphere syncs it's local ads table with reinvents table to update visible ads.
 
 To reach the database you can go to port `8080` on your deployment. An additional image called `adminer` is deployed by the system to allow GUI operations on the database.
 
@@ -39,7 +42,6 @@ Sphere server listens on port `4000`. It has a javascript chart library for rend
 
 Reinvent server listens on port `5000`.
 
-Every 24 hours the local server and the reinvent server sync their advertisement tables.
 
 # Hardware
 - The reinvent code will be running on the cloud. In the demo, it runs on the LRZ Cloud.
