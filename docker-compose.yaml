@@ -32,7 +32,6 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      ADMINER_DEFAULT_SERVER: mysql
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - ./db-data:/var/lib/mysql
@@ -43,6 +42,9 @@ services:
   adminer:
     image: adminer
     restart: always
+    environment:
+      ADMINER_DEFAULT_DB_HOST: mysql
+      ADMINER_DESIGN: pappu687
     ports:
       - 8080:8080
 

@@ -17,6 +17,15 @@ This is the technical documentation for the tech challenge project *Building Sph
 - **docker-compose.yaml:** It builds the individual projects and runs them together. 
 - **makefile:** It compiles individual projects. Just to compile projects run `make`, to run them `make docker`. You need to have *docker* and *golang* installed on your system.
 
+# Running
+- Make sure you have Golang and docker installed.
+- Run `make docker`. If Golang cannot find dependencies, go to sphere folder and run `go get`.
+- Once every service starts, go to `localhost:8080` and connect to db. Username is `root`, password is `example`. Import `db.sql` to the database. 
+- Go to `localhost:4000` to see user dashboard.
+- Go to `localhost:5000` to see reinvent dashboard.
+
+> In docker compose , socket deployment is disabled not to pollute the system with data everytime a new deployment is made. You populate data, you can either enable it in docker-compose, or run `go run main.go` in test folder.
+
 # Used technologies
 ## Communication
 This project uses [**MQTT**](http://mqtt.org/) for the communication between sockets and server. Sockets publish to the topic `my-topic` and server is subscribed to that topic. An MQTT broker is distributed with the *docker-compose.yaml* in this project. Docker handles networking itself, thus the hostname for the MQTT server is given as `mqtt`, where the mqtt broker is mapped to.
@@ -48,15 +57,8 @@ Reinvent server listens on port `5000`.
 
 - The sphere will be running locally in the building. It is currently deployed to a Raspberry Pi, but more processing might require a better hardware.
 
-- The socket code will be running on ESP chips that have Wi-Fi. Golang can be compiled to almost any environment, thus transporting only the binary is doable.
+- The socket code will be running on ESP chips that have Wi-Fi (e.g. [Device in Image](https://www.ebay.de/itm/NodeMCU-ESP8266-ESP-12E-V1-0-Wifi-CP2102-IoT-Lua-267-NEW-/232451934506)). Golang can be compiled to almost any environment, thus transporting only the binary is doable.
 
 ![An Example ESP module](https://asset.conrad.com/media10/isa/160267/c1/-/de/1656367_BB_00_FB/entwickler-platine-sbc-nodemcu-esp32.jpg?x=520&y=520= "An example ESP Module")
 
-# Running
-- Make sure you have Golang and docker installed.
-- Run `make docker`. If Golang cannot find dependencies, go to sphere folder and run `go get`.
-- Once every service starts, go to `localhost:8080` and connect to db. Username is `root`, password is `example`. Import `db.sql` to the database. 
-- Go to `localhost:4000` to see user dashboard.
-- Go to `localhost:5000` to see reinvent dashboard.
 
-> In docker compose , socket deployment is disabled not to pollute the system with data everytime a new deployment is made. You populate data, you can either enable it in docker-compose, or run `go run main.go` in test folder.
